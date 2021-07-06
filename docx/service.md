@@ -19,7 +19,7 @@ spec:
     - name: port1
       port: 80
       targetPort: 80
-	  
+    
 File trên khai báo một Service đặt tên là svc1, kiểu service là cluster IP: tạo ra các service mà có địa chỉ IP để cho các thành phần khác trên cluster liên lạc.
 
 # lấy các service
@@ -97,18 +97,15 @@ spec:
         cpu: "100m"
     ports:
       - containerPort: 80
-	  
-Triển khai file trên
-
+    
+*triển khai file trên
 kubectl apply -f 3.pods.yaml
 
+*Nó tạo ra 2 POD myapp1 (192.168.41.147 chạy nginx) và myapp2 (192.168.182.11 chạy httpd), chúng đều có nhãn app=app1
 
+*Tiếp tục tạo ra service có tên svc2 có thêm thiết lập selector chọn nhãn app=app1
 
-Nó tạo ra 2 POD myapp1 (192.168.41.147 chạy nginx) và myapp2 (192.168.182.11 chạy httpd), chúng đều có nhãn app=app1
-
-Tiếp tục tạo ra service có tên svc2 có thêm thiết lập selector chọn nhãn app=app1
-
-apiVersion: v1
+```apiVersion: v1
 kind: Service
 metadata:
   name: svc2
@@ -120,10 +117,10 @@ spec:
     - name: port1
       port: 80
       targetPort: 80
-	  
-	  
-triển khai và kiểm tra
-kubectl apply -f 4.svc2.yaml
+```   
+    
+*triển khai và kiểm tra
+```kubectl apply -f 4.svc2.yaml
 
 
 root@k8s-master01:~# kubectl describe svc svc2
@@ -138,8 +135,8 @@ TargetPort:        80/TCP
 Endpoints:         10.244.79.105:80,10.244.79.106:80
 Session Affinity:  None
 Events:            <none>
-
-Thông tin trên ta có, endpoint của svc2 là 192.168.182.11:80,192.168.41.147:80, hai IP này tương ứng là của 2 POD trên. Khi truy cập địa chỉ svc2:80 hoặc 10.100.165.105:80 thì căn bằng tải hoạt động sẽ là truy cập đến 192.168.182.11:80 (myapp1) hoặc 192.168.41.147:80 (myapp2)
+```
+*Thông tin trên ta có, endpoint của svc2 là 192.168.182.11:80,192.168.41.147:80, hai IP này tương ứng là của 2 POD trên. Khi truy cập địa chỉ svc2:80 hoặc 10.100.165.105:80 thì căn bằng tải hoạt động sẽ là truy cập đến 192.168.182.11:80 (myapp1) hoặc 192.168.41.147:80 (myapp2)
 
 Thực hành tạo Service kiểu NodePort
 
@@ -158,7 +155,7 @@ spec:
       port: 80
       targetPort: 80
       nodePort: 31080
-	  
+    
 Trong file trên, thiết lập kiểu với type: NodePort, lúc này Service tạo ra có thể truy cập từ các IP của Node với một cổng nó ngẫu nhiên sinh ra trong khoảng 30000-32767. Nếu muốn ấn định một cổng của Service mà không để ngẫu nhiên thì dùng tham số nodePort như trên.
 
 Triển khai file trên
@@ -354,6 +351,7 @@ spec:
 
 - Giờ có thể truy cập từ địa chỉ IP của Node với cổng tương ứng (Kubernetes Docker thì http://localhost:31080 và https://localhost:31443)
 
+
 # Các loại service trong k8s
 - Có 4 kiểu service chính: Loadbalancer, NodePort, ClusterIP và ExternalName
 - Service trỏ đến POD, không trỏ đến deployment hay ReplicaSet. Service trỏ trực tiếp bằng labels
@@ -361,20 +359,20 @@ spec:
 **Phân tích các ví dụ cơ bản sau**
 *No Service*
 - Chúng ta bắt đầu mà không có bất kỳ service(dịch vụ).
-<ảnh svc1>
+![alts](../images/svc1.PNG)
 - Chúng ta có 2 node, 1 pod. Node có phần external(bên ngoài) (4.4.4.1, 4.4.4.2) và internal(bên trong) (1.1.1.1, 1.1.1.2) địa chỉ IP. Pod pod-python chỉ có 1 phần internal
-<ảnh svc2>
+![alts](../images/svc2.PNG)
 - Bây giờ chúng ta thêm một pod pod-nginx thứ hai trên node-1. Trong Kubernetes, tất cả pod đều có thể trỏ tới bất kì pod trong địa chỉ IP bên trong.
 - Có nghĩa pod-nginx có thể ping và kết nối với pod-python bằng cách sử dụng IP bên trong 1.1.1.3.
-<ảnh svc3>
+![alts](../images/svc3.PNG)
 - Bây giờ hãy tưởng tượng pod-python đã bị xóa và tạo ra cái mới. Đột nhiên pod-nginx không thể kết nối tới 1.1.1.3 nữa, và đột nhiên thế giới bùng cháy thành ngọn lửa khủng khiếp như để ngăn chặn điều này, chúng ta tạo ra service đầu tiên của mình!
 
 *ClusterIP trong k8s*
-<svc4>
+![alts](../images/svc4.PNG)
 - Cùng một kịch bản như trên, nhưng chúng ta đã cấu hình service ClusterIP. Đối với bài viết này, để giả sử một dịch vụ có sẵn trong bộ nhớ trong toàn bộ cụm
 
 - Pod-nginx luôn có thể kết nối an toàn với 1.1.10.1 hoặc DNS service-python và được chuyển hướng đến pod-python
-<svc5>
+![alts](../images/svc5.PNG)
 - Chúng ta mở rộng ví dụ ra như sau, với 3 trường hợp của python và bây giờ chúng ta hiển thị các port thuộc địa chỉ IP bên trong của tất cả các pod và service.
 - Tất cả các pod bên trong cluster có thể connect các pod trên port 443 thông qua http://1.1.10.1:3000 hoặc http://service-python:3000. ClusterIP service-python phân phối các yêu cầu dựa trên cách tiếp cận ngẫu nhiên hoặc vòng tròn. Đó là những gì ClusterIP thực hiện, nó cung cấp các pod có sẵn bên trong cluster thông qua tên và IP. 
 service-python trong hình trên có yaml như thế này:
@@ -411,16 +409,16 @@ spec:
 // đây là thay đổi
   type: NodePort
 ```
-<svc6>
+![alts](../images/svc6.PNG)
 - Điều này có nghĩa là service-python bên trong của chúng ta có thể truy cập được từ mọi địa chỉ IP bên trong và bên ngoài trên cổng 30080.
-<svc7>
+![alts](../images/svc7.PNG)
 - Một pod bên trong cụm cũng có thể kết nối với một node IP bên trong trên cổng 30080
-<svc8>
+![alts](../images/svc8.PNG)
 - Trong nội bộ service NodePort vẫn hoạt động như service ClusterIP. Nó giúp tưởng tượng rằng một service NodePort tạo ra một s ClusterIP, mặc dù không còn đối tượng ClusterIP nào nữa.
 
 *LoadBalancer (Cân bằng tải)*
 - Chúng ta sử dụng service LoadBalancer nếu chúng ta muốn có một IP duy nhất phân phối các yêu cầu (sử dụng một số phương thức như vòng tròn) cho tất cả các node IP bên ngoài. Vì vậy, nó được xây dựng dựa trên service NodePort:
-<svc9>
+![alts](../images/svc9.PNG)
 - Hãy tưởng tượng rằng service LoadBalancer tạo ra service NodePort rồi tạo r service dịch vụ ClusterIP. Yaml đã thay đổi cho LoadBalancer trái ngược với NodePort trước đây chỉ đơn giản là:
 ```
 apiVersion: v1
@@ -445,9 +443,9 @@ spec:
 
 - Lấy ví dụ ban đầu của chúng ta, bây giờ chúng ta cho pod-nginx đã có trong Kubernetes. Nhưng api python vẫn ở bên ngoài:
 
-<svc10>
+![alts](../images/svc10.PNG)
 - Ở đây pod-nginx phải kết nối với http://remote.server.url.com, và hoạt động. Nhưng chúng ta sẽ sớm tích hợp api python đó vào cụm cho đến lúc đó, chúng ta có thể tạo ra InternalName:
-<svc11>
+![alts](../images/svc11.PNG)
 Thay đổi yaml như sau :
 ```
 kind: Service
@@ -463,8 +461,10 @@ spec:
   externalName: remote.server.url.com
 ```
 - Bây giờ pod-nginx có thể chỉ cần kết nối với http: // service-python: 3000, giống như với ClusterIP. Cuối cùng khi chúng ta quyết định di chuyển api python cũng như trong cụm Kubernetes, chúng ta chỉ cần thay đổi service thành một ClusterIP với label (nhãn) chính xác:
-<svc12>
+![alts](../images/svc12.PNG)
+- 
 
 
 #tham khảo
 - https://hocweb.vn/kubernetes-service-la-gi-tai-sao-phai-su-dung-kubernetes-phan-1/ 
+- https://huongdanjava.com/vi/tim-hieu-ve-service-trong-kubernetes.html
