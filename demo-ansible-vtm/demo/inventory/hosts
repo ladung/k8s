@@ -1,3 +1,0 @@
-[demo]
-10.60.139.130 ip="130" ansible_port=2222 connect_timeout=300 ansible_user=ptnd ansible_ssh_pass=Media@#$139130
-10.60.139.115 ip="115" ansible_port=2222 connect_timeout=300 ansible_user=ptnd ansible_ssh_pass=Media@#$139115
