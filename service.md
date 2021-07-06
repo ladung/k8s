@@ -462,7 +462,9 @@ spec:
 ```
 - Bây giờ pod-nginx có thể chỉ cần kết nối với http: // service-python: 3000, giống như với ClusterIP. Cuối cùng khi chúng ta quyết định di chuyển api python cũng như trong cụm Kubernetes, chúng ta chỉ cần thay đổi service thành một ClusterIP với label (nhãn) chính xác:
 ![alts](../images/svc12.PNG)
+- 
 
 
 #tham khảo
 - https://hocweb.vn/kubernetes-service-la-gi-tai-sao-phai-su-dung-kubernetes-phan-1/ 
+- https://huongdanjava.com/vi/tim-hieu-ve-service-trong-kubernetes.html
