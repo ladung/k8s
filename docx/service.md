@@ -98,12 +98,12 @@ spec:
     ports:
       - containerPort: 80
     
-*triển khai file trên
+*triển khai file trên*
 kubectl apply -f 3.pods.yaml
 
-*Nó tạo ra 2 POD myapp1 (192.168.41.147 chạy nginx) và myapp2 (192.168.182.11 chạy httpd), chúng đều có nhãn app=app1
+*Nó tạo ra 2 POD myapp1 (192.168.41.147 chạy nginx) và myapp2 (192.168.182.11 chạy httpd), chúng đều có nhãn app=app1*
 
-*Tiếp tục tạo ra service có tên svc2 có thêm thiết lập selector chọn nhãn app=app1
+*Tiếp tục tạo ra service có tên svc2 có thêm thiết lập selector chọn nhãn app=app1*
 
 ```apiVersion: v1
 kind: Service
@@ -136,7 +136,7 @@ Endpoints:         10.244.79.105:80,10.244.79.106:80
 Session Affinity:  None
 Events:            <none>
 ```
-*Thông tin trên ta có, endpoint của svc2 là 192.168.182.11:80,192.168.41.147:80, hai IP này tương ứng là của 2 POD trên. Khi truy cập địa chỉ svc2:80 hoặc 10.100.165.105:80 thì căn bằng tải hoạt động sẽ là truy cập đến 192.168.182.11:80 (myapp1) hoặc 192.168.41.147:80 (myapp2)
+*Thông tin trên ta có, endpoint của svc2 là 192.168.182.11:80,192.168.41.147:80, hai IP này tương ứng là của 2 POD trên. Khi truy cập địa chỉ svc2:80 hoặc 10.100.165.105:80 thì căn bằng tải hoạt động sẽ là truy cập đến 192.168.182.11:80 (myapp1) hoặc 192.168.41.147:80 (myapp2)*
 
 Thực hành tạo Service kiểu NodePort
 
