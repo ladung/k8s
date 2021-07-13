@@ -286,7 +286,7 @@ openssl x509 -req -sha256 -days 365 -in ca.csr -signkey tls.key -out tls.crt
 ```
 kubectl create secret tls secret-nginx-cert --cert=certs/tls.crt  --key=certs/tls.key
 ```
-##Sử dụng Secret cho Pod
+## Sử dụng Secret cho Pod
 - Đã có Secret, để POD sử dụng được sẽ cấu hình nó như một ổ đĩa đê Pod đọc, sửa lại Deployment 6.nginx.yaml như sau:
 ```
 apiVersion: apps/v1
