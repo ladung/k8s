@@ -91,7 +91,7 @@ spec:
           serviceName: http-test-svc
           servicePort: 80
 ```
-*triển khai
+*triển khai*
 ```kubectl apply -f 2.app-test-ingress.yaml```
 
 

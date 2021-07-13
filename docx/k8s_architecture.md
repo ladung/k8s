@@ -1,4 +1,4 @@
-<ảnh>
+![alts](../images/kientruc1.PNG)
 #Master Node
 - Đầu tiên, ta có **Master Node**. Nó chịu trách nhiệm cho việc quản lý Kubernetes Cluster. Nó có 3 components bên trong để quản lý các việc communication (kube-apiserver), scheduling (kube-scheduler) và controller(kube-controller-manager).
 - **Kube API Server** - như tên gọi, thành phần này cho phép ta tương tác với Kubernetes API. Nó là frontend của Kubernetes control plane.
@@ -31,3 +31,6 @@
 - kube-proxy là Network Proxy và load balancer cho dịch vụ, trên một single worker node. Nó đảm nhiệm network routing cho TCP và UDP packets, và thực hiện connection forwarding.
 - Một hoặc nhiều containers sẽ được gói trong Pod. Pod là unit nhỏ nhat có thể được scheduled như một deployment trong Kubernetes. Nhóm containers trong pod dùng chung storage, Linux name space, IP addresses, ...
 - Một khi Pod được deployed và running, kubelet process giao tiếp với Pods để check state và health. kube-proxy sẽ route any packets tới Pods từ resources khác muốn communicate vói chúng. Worker node có thể được expose tới internet thông qua load balancer. Traffic đi vào các node cũng sẽ được kube-proxy đảm nhiệm.
+
+# Tham khảo
+- https://comdy.vn/kubernetes/cac-khai-niem-co-ban-trong-kubernetes/

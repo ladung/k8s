@@ -1,10 +1,10 @@
 # Sử dụng PersistentVolume NFS trong K8s
 ##Cài đặt NFS server
 - Cài đặt nfs-server trên máy master
-*Tham khảo: https://www.tecmint.com/install-nfs-server-on-ubuntu/
+*Tham khảo: https://www.tecmint.com/install-nfs-server-on-ubuntu/*
 
 ##Tạo PersistentVolume NFS
-*tạo file pv-nfs.yaml
+*tạo file pv-nfs.yaml*
 ```
 apiVersion: v1
 kind: PersistentVolume
@@ -21,7 +21,7 @@ spec:
     server: "192.168.88.130"
 ```
 
-**triển khai và kiểm trra
+**triển khai và kiểm trra**
 ```
 kubectl apply -f 1-pv-nfs.yaml
 kubectl get pv -o wide
@@ -29,7 +29,7 @@ kubectl describe pv/pv1
 ```
 
 ##Tạo PersistentVolumeClaim NFS
-*tạo file pvc-nfs.yaml
+*tạo file pvc-nfs.yaml*
 ```
 apiVersion: v1
 apiVersion: v1
@@ -44,7 +44,7 @@ spec:
     requests:
       storage: 1Gi
 ```
-**triển khai và kiểm trra
+**triển khai và kiểm trra**
 ```
 kubectl apply -f 2-pvc-nfs.yaml
 kubectl get pvc,pv -o wide

@@ -38,13 +38,13 @@ metadata:
   name: svc1
 subsets:
   - addresses:
-      - ip: 216.58.220.195      # đây là IP google
+      - ip: 216.58.220.195      // đây là IP google
     ports:
       - name: port1
         port: 80
 
 Triển khai với lệnh
-
+```
 kubectl apply -f 2.endpoint.yaml
 root@k8s-master01:~# kubectl describe svc/svc1 
 Name:              svc1
@@ -58,7 +58,7 @@ TargetPort:        80/TCP
 Endpoints:         216.58.220.195:80
 Session Affinity:  None
 Events:            <none>
-
+```
 - Như vậy svc1 đã có endpoints, khi truy cập svc1:80 hoặc svc1.default:80 hoặc 10.103.87.148:80 có nghĩa là truy cập 216.58.220.195:80
 
 Thực hành tạo Service có Selector, chọn các Pod là Endpoint của Service
