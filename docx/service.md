@@ -1,4 +1,4 @@
-Service
+# Service
 
 - Các pod được quản lý trong kubernetes , trong vòng đời của nó chỉ diễn ra như sau: create -> run -> delete -> create. Các pod không thể tạm dừng hay chạy lại pod đang dừng
 - Mặc dù với mỗi pod khi tạo ra sẽ có một IP để liên lạc tuy nhiên vấn đề xảy ra mỗi khi pod thay thế thì nó sẽ có IP khác, các dịch vụ truy cập pod cố định sẽ không biết IP mới đó.
@@ -9,7 +9,7 @@ Service
 
 Tạo Service kiểu ClusterIP, không Selector
 
-apiVersion: v1
+```apiVersion: v1
 kind: Service
 metadata:
   name: svc1
@@ -19,7 +19,7 @@ spec:
     - name: port1
       port: 80
       targetPort: 80
-    
+```
 File trên khai báo một Service đặt tên là svc1, kiểu service là cluster IP: tạo ra các service mà có địa chỉ IP để cho các thành phần khác trên cluster liên lạc.
 
 # lấy các service
@@ -32,7 +32,7 @@ Hệ thống đã tạo ra service có tên là svc1 với địa chỉ IP là 1
 - Khi Service svc1 được tạo ra mà không có Selector thì nó sẽ tìm trên hệ thống xem có một endpoint nào có tên là svc1 không, nếu có thì nó sẽ lấy enpoint đó làm endpoint của service.
 
 Tạo EndPoint cho Service (không selector)
-apiVersion: v1
+```apiVersion: v1
 kind: Endpoints
 metadata:
   name: svc1
@@ -42,7 +42,7 @@ subsets:
     ports:
       - name: port1
         port: 80
-
+```
 Triển khai với lệnh
 ```
 kubectl apply -f 2.endpoint.yaml

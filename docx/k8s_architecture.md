@@ -34,3 +34,4 @@
 
 # Tham khảo
 - https://comdy.vn/kubernetes/cac-khai-niem-co-ban-trong-kubernetes/
+- https://github.com/hocchudong/ghichep-kubernetes/blob/master/docs/kubernetes-5min/03.Kientrucvacacthanhphan.md
