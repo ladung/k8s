@@ -10,14 +10,25 @@
 
 - Qua đó, Deployment phù hợp hơn cho các ứng dụng dạng stateless, khi mà pod có thể sinh ra và mất đi linh hoạt
 
-```Statefulset``` sinh ra khi phải quản lý pod chặt chẽ, ví dụ triển khai cụm mariadb master slave 3 node trên k8s.
+- ```Statefulset``` sinh ra khi phải quản lý pod chặt chẽ, ví dụ triển khai cụm mariadb master slave 3 node trên k8s.
+
 ![alts](../images/sfs1.PNG)
+
+- ```Statefulset``` không tạo Replicaset, vì vậy chúng không thể rollback về phiên bản trước của StatefulSet. Chúng ta chỉ có thể Scale up/down StatefulSet. Nếu update StatfulSet(Rolling update), một replica pod sẽ go down và update port sẽ come up. Các replica pod tiếp theo sẽ tương tự, lần lượt.
+  - Giả sử UD chạy StatefulSet của ta có 3 pod (web-00, web-01, web-02). Khi thực hiện update, web-02 sẽ terminal, một khi terminate xong thì nó sẽ được recreate và web-01 cũng sẽ terminate ở thời điểm này, tương tự với web-00. Nếu quá trình recreate web-02 bị lỗi thì chỉ có web-02 bị down, web-01 và web-00 vẫn up.
+  - Delete hoặc scale một StatefulSet down sẽ không delete các volume được liên kết với StatefulSet, điều này đảm bảo dữ liệu. Để đảm bảo terminate các pod theo thứ tự, nên scale StatefulSet xuống 0.
+
+- Compare Deployment vs StatefulSet
+
+![alts](../images/svc_compare.PNG)
+
 
 # Khái niệm headless Service
 - Thông thường khi tạo deployment, expose service ra bên ngoài chúng ta sẽ khởi tạo một Service để load-balance traffic xuống các Pod.
 - Vậy, đặt câu hỏi "Có cách để chúng ta có thể truy cập trực tiếp các Pod IP thông qua DNS endpoint nội bộ?"
 - Để giải quyết bài toán này, k8s sinh ra khái niệm "Headless Service". Với Headless Service, chúng ta có thể kết nối trực tiếp với Pods.
-- Ta chỉ cần cấu hình phần ```“.spec.clusterIP”``` là ```“None”``` là ta đã quy định Service là loại Headless. Khi đó Cluster IP sẽ không được cấp phát cho Service mà ta khai báo, kube-proxy sẽ không xử lý đối tượng Service. Lúc này DNS của Service sẽ trả về thông tin là các địa chỉ IP của Pod khớp với Selector.
+- Ta chỉ cần cấu hình phần ```“.spec.clusterIP”``` là ```“None”``` là ta đã quy định Service là loại Headless. Khi đó Cluster IP sẽ không được cấp phát cho Service mà ta khai báo, kube-proxy sẽ không xử lý đối tượng Service. Lúc này DNS của Service sẽ trả về thông tin là các địa chỉ IP của Pod khớp với Selector. 
+
 
 
 *Ví dụ*, điển hình nhất cần sử dụng Headless Service là bài toán triển khai database trong k8s.
