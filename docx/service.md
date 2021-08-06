@@ -165,14 +165,14 @@ kubectl appy -f 5.svc3.yaml
 Sau khi triển khai có thể truy cập với IP là địa chỉ IP của các Node và cổng là 31080
 
 
-**Ví dụ ứng dụng Service, Deployment, Secret
+**Ví dụ ứng dụng Service, Deployment, Secret**
 - Trong ví dụ này, sẽ thực hành triển khai chạy máy chủ nginx với mức độ áp dụng phức tạp hơn đó là:
 - Xây dựng một image mới từ image cơ sở nginx rồi đưa lên registry Hub Docker đặt tên là ichte/swarmtest:nginx
 - Tạo Secret chứa xác thực SSL sử dụng bởi ichte/swarmtest:nginx
 - Tạo deployment chạy/quản lý các POD có chạy ichte/swarmtest:nginx
 - Tạo Service kiểu NodePort để truy cập đến các POD trên
 
-*Xây dựng image ladung/kubernetes:nginx
+*Xây dựng image ladung/kubernetes:nginx*
 - Image cơ sở là nginx (chọn tag bản 1.17.6), đây là một proxy nhận các yêu cầu gửi đến. Ta sẽ cấu hình để nó nhận các yêu cầu http (cổng 80) và https (cổng 443).
 - Tạo ra thư mục nginx để chứa các file dữ liệu, đầu tiên là tạo ra file cấu hình nginx.conf, file cấu hình này được copy vào image ở đường dẫn /etc/nginx/nginx.conf khi build image.
 
