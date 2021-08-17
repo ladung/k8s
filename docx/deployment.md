@@ -153,3 +153,4 @@ deployment "sample-deployment" rolled back
 
 # Tham khảo
 - https://blog.vietnamlab.vn/nhap-mon-kubernetes-p4-kubernetes-workloads-resource-1/
+- https://medium.com/geekculture/kubernetes-deployment-explained-9b2b89dd3977
